@@ -41,7 +41,7 @@ function Initialize-AzureSubscription {
 
     #Set UserAgent for Azure Calls
     Set-UserAgent
-    
+
     if ($Endpoint.Auth.Scheme -eq 'Certificate') {
         # Certificate is only supported for the Azure module.
         if (!$script:azureModule) {
@@ -126,8 +126,8 @@ function Initialize-AzureSubscription {
         } else {
             # Else, this is AzureRM.
             try {
-                Write-Host "##[command]Add-AzureRMAccount -ServicePrincipal -Tenant $($Endpoint.Auth.Parameters.TenantId) -Credential $psCredential"
-                $null = Add-AzureRMAccount -ServicePrincipal -Tenant $Endpoint.Auth.Parameters.TenantId -Credential $psCredential
+                Write-Host "##[command]Add-AzureRMAccount -ServicePrincipal -Tenant $($Endpoint.Auth.Parameters.TenantId) -Credential $psCredential -Environment $($Endpoint.Data.Environment)"
+                $null = Add-AzureRMAccount -ServicePrincipal -Tenant $Endpoint.Auth.Parameters.TenantId -Credential $psCredential -Environment $Endpoint.Data.Environment
             } catch {
                 # Provide an additional, custom, credentials-related error message.
                 Write-VstsTaskError -Message $_.Exception.Message
